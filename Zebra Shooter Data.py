@@ -24,22 +24,15 @@ def matchWriter(xsData, ysData, matchTime, x, matchData, alliance, matchNumber, 
     
 
 def matchList():
-
-    #matchList queries TBA for a full list of matches from an event, and finds how many total qual matches were played.
-
-    matchMax = []
-    
-    for m in matchNumbers: #TBA outptuts json, this puts it into a slightly more managable list.
-        print(m)
-        if m[eventCodeLen:eventCodeLen + 2] == "qm":
-            matchMax.append(int(m[eventCodeLen + 2:eventCodeLen + 4])) #if it has "qm", put its number into the list
-        else:
-            print("did nothing") #if it doesnt have QM, then it ignores it. Should be changed to nothing instead of just saying it did nothing.
-
-    print(matchMax) #prints the list of matches, debug
-    largestQualValue = int(max(matchMax)) #Grabs the largest value from the list, turns it into an integer.
-    print(largestQualValue)
-    return largestQualValue #total number of qual matches an event has.
+    matches = []
+    for match in getTBA("event/" + event + "/matches/simple"):
+        if match['comp_level'] == "qm":
+            if match['alliances']['red']['score'] == "-1" or match['alliances']['red']['score'] == None:
+                print("match has not started")
+            else:
+                matches.append(int(match['match_number']))
+                print(max(matches))
+    return max(matches) #total number of qual matches an event has.
 
 
 
@@ -176,7 +169,6 @@ def findShooterSpots():
         alliance = "red"
         allianceSwap = 0
         matchNumber = 1
-        teamPosSwap = 0
 
         xsTestA = 800
         xsTestB = 800
