@@ -3,9 +3,10 @@ import csv
 
 
 baseURL = 'http://www.thebluealliance.com/api/v3/' #Makes it easier to call upon the link
-header = {'X-TBA-Auth-Key':'ADD YOUR KEY HERE'} #Tim's TBA API key, please don't abuse it.
+header = {'X-TBA-Auth-Key':''}
 
 s = requests.Session() #This prevents us from repeatedly opening and closing a socket + speeds it up.
+
 def getTBA(url):
     return s.get(baseURL + url, headers=header).json()
 
@@ -13,6 +14,14 @@ event = input("Enter event code: ")
 eventCodeLen = int(len(event)) + 1 #finds the length of the user input, and adds one to account for the underscore so any equations with it can focus solely on the changable TBA output.
 matchNumbers = getTBA("event/"+ event + "/matches/keys") #grabs all matches from an event
 
+
+def matchWriter(xsData, ysData, matchTime, x, matchData, alliance, matchNumber, writer):
+    matchTime = round(matchTime, 1) #makes the time more readable for us/tableau
+    writer.writerow([int(matchData['alliances'][alliance][x]['team_key'].strip("frc")), matchNumber, alliance, matchTime, xsData, ysData]) #writes to the CSV
+    matchTime = matchTime + .1
+    timeReturn = matchTime
+    return timeReturn
+    
 
 def matchList():
 
@@ -48,7 +57,6 @@ def JSONToCSV():
         writer = csv.writer(csvFile)
         writer.writerow(['Team', 'Match', 'Alliance', 'Time', 'X', 'Y']) #Creates the columns
         alliance = "red"
-        allianceSwap = 0
 
         matchNumber = 1 #We can assume all events have their first qual match as "1", so the starting value is 1. If an event differs for some reason (data didnt track that match) we can set the value using min(matchMax) over in the matchList function later.
 
@@ -56,49 +64,42 @@ def JSONToCSV():
             print(matchNumber)#mainly to show that the code is working.
             matchData = getTBA("match/" + event + "_qm" + str(matchNumber) + "/zebra_motionworks") #calls a match.
             
-            
-
-            redTeams = matchData['alliances']['red'][x] 
-            blueTeams = matchData['alliances']['blue'][x] #parses the JSON to find designated team
-
-            redXsData = redTeams['xs']
-            redYsData = redTeams['ys']
-            blueXsData = blueTeams['xs']
-            blueYsData = blueTeams['ys'] #finds the X/Y data for each team
-            
             while x < 3: #if X hits 3, no team will exist, so we leave the loop
-                for xsData, ysData in zip(redXsData, redYsData): #turns nasty JSON output into something more usable
+
+                allianceXsData = matchData['alliances'][alliance][x]
+                allianceYsData = matchData['alliances'][alliance][x] #parses the JSON to find designated team
+
+                teamXsData = allianceXsData['xs']
+                teamYsData = allianceYsData['ys'] #finds the X/Y data for each team
+
+                
+                for xsData, ysData in zip(teamXsData, teamYsData): #turns nasty JSON output into something more usable
                     if type(xsData) == float: #former versions of this had a typeerror issue, this seems to fix it. Maybe because of the nulls?
-                        matchTime = round(matchTime, 1) #makes the time more readable for us/tableau
-                        writer.writerow([int(matchData['alliances'][alliance][x]['team_key'].strip("frc")), matchNumber, alliance, matchTime, xsData, ysData]) #writes to the CSV
-                        matchTime = matchTime + .1
+                        matchTime = matchWriter(xsData, ysData, matchTime, x, matchData, alliance, matchNumber, writer)
                     elif xsData == None: #If the data is none, then its a null. Currently, its kept to preserve the data, but the main version will probably remove it.
-                        writer.writerow([int(matchData['alliances'][alliance][x]['team_key'].strip("frc")), matchNumber, alliance, matchTime, "Null", "Null"])
-                        matchTime = matchTime + .1
+                        xsData = "null"
+                        ysData = "null"
+                        matchTime = matchWriter(xsData, ysData, matchTime, x, matchData, alliance, matchNumber, writer)
                     else: #Mainly for debug. If youre hitting this, something obviously went wrong.
                         matchTime = matchTime + .1
                         print("Something was wrong with the data given.")
                         
                 x = x + 1
-                allianceSwap = allianceSwap + 1
                 matchTime = 0 #these two reset for the next team to be run through.
 
-
-                if allianceSwap == 3:
+                if x == 3 and alliance == "red":
                     alliance = "blue"
                     x = 0
-                elif allianceSwap == 6:
+                elif x == 3 and alliance == "blue":
                     alliance = "red"
-                    allianceSwap = 0
-                    
-                    
-                
 
+                            
             x = 0
             matchTime = 0 #These two reset for the next alliance to be run though.
 
             matchNumber= matchNumber + 1 #These three reset for the next alliance to be run though.
         print(str(matchNumber - 1) + " matches have been saved")
+
 
 def JSONToCSVAutos():
 
@@ -114,20 +115,13 @@ def JSONToCSVAutos():
         writer = csv.writer(csvFile)
         writer.writerow(['Team', 'Match', 'Alliance', 'Time', 'X', 'Y']) #Creates the columns
         alliance = "red"
-        teamPosSwap = 0
+
 
         matchNumber = 1 #We can assume all events have their first qual match as "1", so the starting value is 1. If an event differs for some reason (data didnt track that match) we can set the value using min(matchMax) over in the matchList function later.
 
         while matchNumber < qualVal + 1:
             print(matchNumber)#mainly to show that the code is working.
             matchData = getTBA("match/" + event + "_qm" + str(matchNumber) + "/zebra_motionworks") #calls a match.
-
-
-            allianceXsData = matchData['alliances'][alliance][x] 
-            allianceYsData = matchData['alliances'][alliance][x] #parses the JSON to find designated team
-
-            teamXsData = allianceXsData['xs']
-            teamYsData = allianceYsData['ys'] #finds the X/Y data for each team
             
             while x < 3: #if X hits 3, no team will exist, so we leave the loop
 
@@ -154,9 +148,7 @@ def JSONToCSVAutos():
                                 print("Something was wrong with the data given.")
                         
                 x = x + 1
-                #allianceSwap = allianceSwap + 1
                 matchTime = 0 #these two reset for the next team to be run through.
-                teamPosSwap = teamPosSwap + 1
 
                 if x == 3 and alliance == "red":
                     alliance = "blue"
@@ -200,12 +192,6 @@ def findShooterSpots():
         while matchNumber < qualVal + 1:
             print(matchNumber)#mainly to show that the code is working.
             matchData = getTBA("match/" + event + "_qm" + str(matchNumber) + "/zebra_motionworks") #calls a match.
-
-            allianceXsData = matchData['alliances'][alliance][x] 
-            allianceYsData = matchData['alliances'][alliance][x] #parses the JSON to find designated team
-
-            teamXsData = allianceXsData['xs']
-            teamYsData = allianceYsData['ys'] #finds the X/Y data for each team
 
             while x < 3: #if X hits 3, no team will exist, so we leave the loop
 
@@ -255,7 +241,6 @@ def findShooterSpots():
                     
                 x = x + 1
                 matchTime = 0 #these two reset for the next team to be run through.
-                teamPosSwap = teamPosSwap + 1
 
                 if x == 3 and alliance == "red":
                     alliance = "blue"
@@ -273,6 +258,6 @@ def findShooterSpots():
         print(str(matchNumber - 1) + " matches have been saved")
                         
 
-findShooterSpots()
+JSONToCSV()
 
 
