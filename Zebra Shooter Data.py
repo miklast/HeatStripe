@@ -25,7 +25,8 @@ class dataInput:
 
 def matchWriter(dataInput, matchData, writer):
 
-    #"cleaner" way to write to the CSV file, instead of having this everywhere. Calls the dataInput class to get the specific data to write, along with matchData to get other key info along with writer to write.
+    #"cleaner" way to write to the CSV file, instead of having this everywhere.
+    #Calls the dataInput class to get the specific data to write, along with matchData to get other key info along with writer to write.
     dataInput.matchTime = round(dataInput.matchTime, 1) #makes the time more readable for us/tableau
     writer.writerow([int(matchData['alliances'][dataInput.alliance][dataInput.aliPos]['team_key'].strip("frc")), dataInput.matchNumber, dataInput.alliance, dataInput.matchTime, dataInput.xsData, dataInput.ysData]) #writes to the CSV
     dataInput.matchTime = dataInput.matchTime + .1
@@ -236,7 +237,8 @@ def findShooterSpots():
                 continue
 
             #super high values are put as placeholders so we dont risk them accidentally false flagging data when first called every match.
-            #These variables will just play telephone with each other, checking to see if movement has happened. I bet theres a better way to do this, but this was my solution.
+            #These variables will just play telephone with each other, checking to see if movement has happened.
+            #I bet theres a better way to do this, but this was my solution.
             xsTestA = 800
             xsTestB = 800
             xsTestC = 800
@@ -261,7 +263,7 @@ def findShooterSpots():
                 counter = 0
 
                 #TeamXsData and teamYsData are two long lists of data, this calls each row both the both of them.
-                for xsData, ysData in zip(teamXsData, teamYsData): #turns nasty JSON output into something more usable
+                for xsData, ysData in zip(teamXsData, teamYsData): 
 
                     #Our whacky game of telephone begins, sending data up the chain to start comparing.
                     xsTestC = xsTestB
@@ -296,7 +298,8 @@ def findShooterSpots():
                     #Once the counter hits the threshold, currently 3.5s, we start writing.
                     if counter > 35:
 
-                        #we check to make sure theyre not still in the same spot. While they may just take that long to shoot, chances are theyre instead dead on the field.
+                        #we check to make sure theyre not still in the same spot.
+                        #While they may just take that long to shoot, chances are theyre instead dead on the field.
                         if xsRepeatTest == xsDataWrite and ysRepeatTest == ysDataWrite:
                             counter = 0
                         #If it doesnt match, we set the data up to be written, and reset the counter.
