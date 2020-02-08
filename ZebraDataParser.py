@@ -1,4 +1,4 @@
-#Zebra Data Collector
+#Zebra Data parser
 
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
@@ -72,7 +72,7 @@ def JSONToCSV(event):
     d.matchNumber = 1 
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
-    with open('ZebraData.csv', 'w', newline='') as csvFile:
+    with open(event + 'ZebraData.csv', 'w', newline='') as csvFile:
         #we create an easy way to write to the CSV, then define what our column names are, along with creating the column names. 
         writer = csv.writer(csvFile)
         writer.writerow(['Team', 'Match', 'Alliance', 'Time', 'X', 'Y']) 
@@ -149,7 +149,7 @@ def JSONToCSVAutos(event):
     d.matchNumber = 1 
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
-    with open('ZebraDataAutos.csv', 'w', newline='') as csvFile:
+    with open(event + 'ZebraDataAutos.csv', 'w', newline='') as csvFile:
         
         #we create an easy way to write to the CSV, then define what our column names are, along with creating the column names.  
         writer = csv.writer(csvFile)
@@ -234,7 +234,7 @@ def findShooterSpots(event):
     print(c)
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
-    with open('ZebraShooterLocation.csv', 'w', newline='') as csvFile:
+    with open(event + 'ZebraShooterLocation.csv', 'w', newline='') as csvFile:
 
         #we create an easy way to write to the CSV, then define what our column names are, along with creating the column names.
         writer = csv.writer(csvFile)
