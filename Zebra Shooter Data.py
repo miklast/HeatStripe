@@ -1,16 +1,23 @@
+#Zebra Data Collector
+
+#Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
+
 import requests
 import csv
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
-header = {'X-TBA-Auth-Key':''}
+#Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
+header = {'X-TBA-Auth-Key':'EDIT ME!'}
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
 s = requests.Session()
+
+baseGlobal = 3
+counterMaxGlobal = 35
 
 def getTBA(url):
     #allows us to quickly call TBA api endpoints.
     return s.get(baseURL + url, headers=header).json()
 
-event = input("Enter event code: ")
 
 class dataInput:
 
@@ -34,7 +41,7 @@ def matchWriter(dataInput, matchData, writer):
     return timeReturn
     
 
-def matchList():
+def matchList(event):
 
     #Collects and finds the last qual match to be played.
     matches = []
@@ -50,13 +57,13 @@ def matchList():
 
 
 
-def JSONToCSV():
+def JSONToCSV(event):
 
     #JSONToCSV does as it says, takes the JSON output to a CSV file. To use with Tableau, you need an XLSX file though.
 
     #These set the class we call from, along with setting some base values for everything.
     d = dataInput()
-    qualVal = matchList()
+    qualVal = matchList(event)
     d.aliPos = 0 
     d.alliance = "red" 
     d.matchTime = 0
@@ -127,13 +134,13 @@ def JSONToCSV():
         print(str(d.matchNumber - 1) + " matches have been saved")
 
 
-def JSONToCSVAutos():
+def JSONToCSVAutos(event):
 
     #Takes the first 16 seconds of data (accounts for variance in start times) to look at auto paths without having to worry about the rest of the data.
     
     #These set the class we call from, along with setting some base values for everything.
     d = dataInput()
-    qualVal = matchList()
+    qualVal = matchList(event)
     d.aliPos = 0 
     d.alliance = "red" 
     d.matchTime = 0
@@ -205,16 +212,24 @@ def JSONToCSVAutos():
         #when we're done, we tell the user its finished. Can be misleading though if some matches are skipped.    
         print(str(d.matchNumber - 1) + " matches have been saved")
 
-def findShooterSpots():
+def findShooterSpots(event):
+
+    global baseGlobal, counterMaxGlobal
 
     #These set the class we call from, along with setting some base values for everything.
     d = dataInput()
-    qualVal = matchList()
+    qualVal = matchList(event)
     d.aliPos = 0 
     d.alliance = "red" 
     d.matchTime = 0
-    d.matchNumber = 1 
-    base = 3
+    d.matchNumber = 1
+    b, c = baseGlobal, counterMaxGlobal
+    base = b
+    print(b)
+    #counter is used to count how long we wait until we save the data. Currently, 10 equals one second.
+    counter = 0
+    counterMax = c
+    print(c)
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
     with open('ZebraShooterLocation.csv', 'w', newline='') as csvFile:
@@ -239,9 +254,9 @@ def findShooterSpots():
             #super high values are put as placeholders so we dont risk them accidentally false flagging data when first called every match.
             #These variables will just play telephone with each other, checking to see if movement has happened.
             #I bet theres a better way to do this, but this was my solution.
-            xsTestA = 800
-            xsTestB = 800
-            xsTestC = 800
+            xsTestA = 1257
+            xsTestB = 4131
+            xsTestC = 15286
 
             ysTestA = 800
             ysTestB = 800
@@ -258,9 +273,6 @@ def findShooterSpots():
                 allianceYsData = matchData['alliances'][d.alliance][d.aliPos]
                 teamXsData = allianceXsData['xs']
                 teamYsData = allianceYsData['ys']
-
-                #counter is used to count how long we wait until we save the data. Currently, 10 equals one second.
-                counter = 0
 
                 #TeamXsData and teamYsData are two long lists of data, this calls each row both the both of them.
                 for xsData, ysData in zip(teamXsData, teamYsData): 
@@ -295,8 +307,8 @@ def findShooterSpots():
                         counter = 0
                         d.matchTime = d.matchTime + .1
 
-                    #Once the counter hits the threshold, currently 3.5s, we start writing.
-                    if counter > 35:
+                    #Once the counter hits the threshold, defaulting to 3.5s, we start writing.
+                    if counter > counterMax:
 
                         #we check to make sure theyre not still in the same spot.
                         #While they may just take that long to shoot, chances are theyre instead dead on the field.
@@ -328,6 +340,122 @@ def findShooterSpots():
             d.matchNumber= d.matchNumber + 1
                         
 
+def mainMenu():
+
+    global baseGlobal, counterMaxGlobal
+
+    #This will be where the user will choose what they want to do.
+    
+    WRITEFULLDATA = 1
+    WRITEAUTODATA = 2
+    WRITESHOTLOCATION = 3
+    SETTINGS = 4
+    HOWTO = 5
+    QUIT = 0
+
+    choice = 4513
+
+    while choice != QUIT:
+        displayMenu()
+        choice = int(input("Please choose an option from the menu: "))
+        if choice == WRITEFULLDATA:
+            event = input("Enter event code: ")
+            JSONToCSV(event) 
+
+        elif choice == WRITEAUTODATA:
+            event = input("Enter event code: ")
+            JSONToCSVAutos(event)
+
+        elif choice == WRITESHOTLOCATION:
+            event = input("Enter event code: ")
+            findShooterSpots(event)
+
+        elif choice == SETTINGS:
+            baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal)
+
+        elif choice == HOWTO:
+            tutorial()
+
+        else:
+            print("A valid choice was not selected. Please try again.")
+
+def displayMenu():
+
+    #having this as its own function makes it nicer to edit in the long run.
+    
+    print("Zebra Parser for Excel/Tableau" + "\n")
+    print("Menu:")
+    print("1. save an event's Zebra data")
+    print("2. Save only an event's auto Zebra data")
+    print("3. Save shooter locations based on Zebra data")
+    print("4. Change shooter location settings")
+    print("5. Explain how the program works")
+    print("0. quit")
+    print("\n")
+
+def settingsMenu(baseGlobal, counterMaxGlobal):
+
+    print("\n")
+    print("Please note that you will have to change these values every time you start the program.")
+    print("A future update before Week 1 events should fix this, but if it hasnt, please bug me about it.")
+    print("\n")
+
+    BASEVALUE = 10
+    COUNTERMAXVALUE = 11
+    GOBACK = 12
+
+    print("The rounding for shooter location recordingis " + str(baseGlobal) + " feet.")
+    print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.") 
+
+    settingChoice = int(input("Please select which value you want to change: "))
+
+    while settingChoice != GOBACK:
+        if settingChoice == BASEVALUE:
+            try:
+                baseGlobal = int(input("Enter new rounding value: "))
+            except:
+                baseGlobal = 3
+                print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
+        elif settingChoice == COUNTERMAXVALUE:
+            try:
+                counterMaxGlobal = str(input("Enter new time value: "))
+                counterMaxGlobal = int(float(counterMaxGlobal) * 10)
+                print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
+                print(baseGlobal)
+                print(counterMaxGlobal)
+                print("\n")
+                return(baseGlobal, counterMaxGlobal)
+            except:
+                counterMaxGlobal = 35
+                print("Invalid entry.")
+        else:
+            continue
+            
+    return baseGlobal, counterMaxGlobal
+
+def tutorial():
+    
+    print("\n")
+    print("Tutorial:")
+    print("\n")
+    print("This program is made to take Zebra JSON outputs and form them in such a way that makes them useful for Excel and Tableau use.")
+    print("You have three different options currently for what data to collect:")
+    print("\n")
+    print("Full match Zebra Data: Collect all zebra data from an event and put it into one file.")
+    print("These will get fairly large for an excel file (20mb) and may cause loading issues with tableau on weaker PC's.")
+    print("\n")
+    print("Zebra Auto Data: This will collect the first 16 seconds of every match and save them into one file.")
+    print("This is great for finding paths of teams that you will be competing with/against at an event.")
+    print("\n")
+    print("Zebra Shooter Location: This will comb through the data to find where teams are consistently in one spot, and save those locations.")
+    print("The default time is 3.5s in one spot, with each location value rounded to the nearest 3ft mark. These can be edited in Settings.")
+    print("\n")
+    print("Be aware that all of these are saved as CSV files, and need to be resaved as an XLSX file to be used in Tableau.")
+    print("\n")
+    
+        
+    
+
 try:
     if 'Error' in getTBA('status'):
         g = g
@@ -335,7 +463,5 @@ except:
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
     s.close()
 else:
-    JSONToCSV()
-    JSONToCSVAutos()
-    findShooterSpots()
+    mainMenu()
     s.close()
