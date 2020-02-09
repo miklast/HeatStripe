@@ -1,3 +1,4 @@
+
 #Zebra Data parser
 
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
@@ -69,7 +70,8 @@ def JSONToCSV(event):
     d.aliPos = 0 
     d.alliance = "red" 
     d.matchTime = 0
-    d.matchNumber = 1 
+    d.matchNumber = 1
+    print("collecting match data")
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
     with open(event + 'ZebraData.csv', 'w', newline='') as csvFile:
@@ -146,7 +148,8 @@ def JSONToCSVAutos(event):
     d.aliPos = 0 
     d.alliance = "red" 
     d.matchTime = 0
-    d.matchNumber = 1 
+    d.matchNumber = 1
+    print("collecting match data")
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
     with open(event + 'ZebraDataAutos.csv', 'w', newline='') as csvFile:
@@ -227,11 +230,10 @@ def findShooterSpots(event):
     d.matchNumber = 1
     b, c = baseGlobal, counterMaxGlobal
     base = b
-    print(b)
+    print("collecting match data")
     #counter is used to count how long we wait until we save the data. Currently, 10 equals one second.
     counter = 0
     counterMax = c
-    print(c)
 
     #Create a CSV file with the name based on the event given, and acts as if as its a new file, overwriting anything that may of been there before.
     with open(event + 'ZebraShooterLocation.csv', 'w', newline='') as csvFile:
@@ -340,6 +342,7 @@ def findShooterSpots(event):
             d.aliPos = 0
             d.matchTime = 0
             d.matchNumber= d.matchNumber + 1
+        print(str(d.matchNumber - 1) + " matches have been saved")
                         
 
 def mainMenu():
@@ -495,8 +498,9 @@ def tutorial():
         
     
 
+
 try:
-    if 'Error' in getTBA('status'):
+    if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
         g = g
 except:
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
