@@ -14,7 +14,7 @@ header = {'X-TBA-Auth-Key':'EDIT ME!'}
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
 s = requests.Session()
 
-baseGlobal = 3
+baseGlobal = 2
 counterMaxGlobal = 35
 
 def getTBA(url):
