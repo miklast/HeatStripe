@@ -26,12 +26,16 @@ This python script allows you to save the JSON ZEBRA MotionWorks outputs The Blu
 5. That's it! 
 
 ## FAQ
+
 **Q. Why cant i do anything with it?**
+
 A. You probably dont have an API key entered. Make sure to make a read API key with TBA, and place it in line 15 of the script. 
+
 **Q. Entering an event tells me it hasn't started when the event has. Why is this?**
 A. You must include the year within the event code. For example, if you want data from 2019 PNW District Championship, you must type "2019pncmp". You can find the event code for an event by navigating to it on [TBA](https://www.thebluealliance.com/), and looking at the URL of the event you are looking for.
 
 ![](https://i.imgur.com/J5MxE27.png)
 
 **Q. Why does every event I enter tell me its skipping all the matches?**
+
 A. ZEBRA MotionWorks is very new to FRC in this large of a capacity, and only 2019 Chezy Champs (2019cc) has data entered with TBA currently. As the season progresses, more events should have data to explore with. 
