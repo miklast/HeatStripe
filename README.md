@@ -22,7 +22,9 @@ This python script allows you to save the JSON data ZEBRA MotionWorks outputs gi
 
 4. If the data is for use within Tableau, you must resave the data from a CSV file to an XLSX file to be able to connect it to Tableau. This is a current limitation of the code, and I do not currently have plans to change this for the 2020 season.
 
-5. That's it! 
+5. That's it!
+
+![](https://i.imgur.com/7f3uyb4.gif)
 
 ## FAQ
 
