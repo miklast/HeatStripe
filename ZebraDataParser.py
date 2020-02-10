@@ -1,4 +1,3 @@
-
 #Zebra Data parser
 
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
@@ -37,7 +36,7 @@ def matchWriter(dataInput, matchData, writer):
 
     #"cleaner" way to write to the CSV file, instead of having this everywhere.
     #Calls the dataInput class to get the specific data to write, along with matchData to get other key info along with writer to write.
-    dataInput.matchTime = round(dataInput.matchTime, 1) #makes the time more readable for us/tableau
+    dataInput.matchTime = round(dataInput.matchTime, 1) 
     writer.writerow([int(matchData['alliances'][dataInput.alliance][dataInput.aliPos]['team_key'].strip("frc")), dataInput.matchNumber, dataInput.alliance, dataInput.matchTime, dataInput.xsData, dataInput.ysData]) #writes to the CSV
     dataInput.matchTime = dataInput.matchTime + .1
     timeReturn = dataInput.matchTime
@@ -376,7 +375,10 @@ def mainMenu():
                 if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
                     g=g
             except:
+                print ("\n")
+                print("Error:")
                 print("No match data has been found for this event. Has the event started?")
+                print ("\n")
             else:
                 JSONToCSV(event) 
 
@@ -387,7 +389,10 @@ def mainMenu():
                 if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
                     g=g
             except:
+                print ("\n")
+                print("Error:")
                 print("No match data has been found for this event. Has the event started?")
+                print ("\n")
             else:
                 JSONToCSVAutos(event) 
 
@@ -398,7 +403,10 @@ def mainMenu():
                 if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
                     g=g
             except:
+                print ("\n")
+                print("Error:")
                 print("No match data has been found for this event. Has the event started?")
+                print ("\n")
             else:
                 findShooterSpots(event)
 
@@ -437,7 +445,7 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
     COUNTERMAXVALUE = 2
     GOBACK = 0
 
-    print("The rounding for shooter location recordingis " + str(baseGlobal) + " feet.")
+    print("The rounding for shooter location recording is " + str(baseGlobal) + " feet.")
     print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
 
     print("1. Change the rounding value")
@@ -503,6 +511,7 @@ try:
     if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
         g = g
 except:
+    color.write("Error:\n", "COMMENT")
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
     s.close()
 else:
