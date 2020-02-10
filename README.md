@@ -2,7 +2,7 @@
 Python script that turns ZEBRA MotionWorks JSON outputs from TBA into an easily usable Excel file for use in Excel and Tableau.
 
 ## Use
-This python script allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks tracking will be at over 20 events this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any sort of movement on the field and take your scouting to the next level with little required work.
+This python script allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks tracking will be at over 20 events this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any movement on the field and take your scouting to the next level with little required work.
 
 ![](https://i.imgur.com/HNSmIwj.png)
 
