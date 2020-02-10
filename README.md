@@ -63,3 +63,14 @@ To add by week 1:
  
  - Gsheets integration. 
  - Explicit deadzones to ignore in tracking shooter locations (red is unable to shoot past its own initiation line, why bother tracking if they stopped there?
+
+## Thanks
+
+These people helped make this project possible.
+
+
+
+| <a href="https://github.com/icecube45" target="_blank">**Icecube45**</a> | <a href="https://github.com/MC42" target="_blank">**MC42**</a> | <a href="https://github.com/octocynth" target="_blank">**octocynth**</a> |
+| :---: |:---:| :---:|
+| [![Icecube45](https://avatars3.githubusercontent.com/u/1614007?&s=200)](https://github.com/icecube45)    | [![MC42](https://avatars3.githubusercontent.com/u/6531081?&s=200)](https://github.com/MC42) | [![octocynth](https://avatars1.githubusercontent.com/u/8210419?s=200)](https://github.com/octocynth)  |
+| <a href="http://github.com/icecube45" target="_blank">`github.com/icecube45`</a> | <a href="https://github.com/MC42" target="_blank">`github.com/MC42`</a> | <a href="https://github.com/octocynth" target="_blank">`github.com/octocynth`</a> |
