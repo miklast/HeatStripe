@@ -51,3 +51,15 @@ A. You must include the year within the event code. For example, if you want dat
 **Q. Why does every event I enter tell me it's skipping all the matches?**
 
 A. ZEBRA MotionWorks is very new to FRC in this large of a capacity, and only 2019 Chezy Champs (2019cc) has data entered with TBA currently. As the season progresses, more events should have data to explore with. 
+
+
+## Future Plans
+To add by week 1:
+
+ - Delay for data writing (Caleb's currently has a 1.6s delay, im waiting until we see some 2020 data to add it. Chances are ill add it anyways pre W1 and have it editable in the settings.)
+ - User settings persist when re-running code. This may limit the user to only IDLE to make full use though.
+ 
+ To explore:
+ 
+ - Gsheets integration. 
+ - Explicit deadzones to ignore in tracking shooter locations (red is unable to shoot past its own initiation line, why bother tracking if they stopped there?
