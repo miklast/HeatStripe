@@ -28,6 +28,16 @@ This python script allows you to save the JSON data ZEBRA MotionWorks outputs gi
 
 ## FAQ
 
+**Q. How is this different from Caleb's Parser?**
+
+A. Unlike Caleb's parser, which actually parses the data, this script only transcribes the data from the JSON output into a CSV file. This means you only get the raw Zebra data to work with without any calculations run on it, outside of the stopped positions program.
+
+**Q. Does this make use of [Caleb's zones](https://www.chiefdelphi.com/t/2020-zebra-data-parser-zones/375721)?**
+
+While it does not in code, you can upload the zone map as a background Image in Tableau to make use of it. To add a background map in Tableau, go to Map > Background Images, and upload his map using the X and Y columns as the X and Y fields.
+
+![Example of adding an image to a sheet](https://i.imgur.com/f8T7gXN.gif)
+
 **Q. Why can't I do anything with it?**
 
 A. You probably do not have a valid API key entered. Make sure to make a read API key with TBA, and place it in line 15 of the script. 
