@@ -1,5 +1,9 @@
 #Zebra Data parser
 
+
+
+
+
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
 import requests
@@ -462,6 +466,7 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
             except:
                 baseGlobal = 3
                 print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
+                return(baseGlobal, counterMaxGlobal)
         elif settingChoice == COUNTERMAXVALUE:
             try:
                 counterMaxGlobal = str(input("Enter new time value: "))
@@ -511,7 +516,7 @@ try:
     if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
         g = g
 except:
-    color.write("Error:\n", "COMMENT")
+    print("Error:")
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
     s.close()
 else:
