@@ -62,7 +62,7 @@ To add by week 1:
  To explore:
  
  - Gsheets integration. 
- - Explicit deadzones to ignore in tracking shooter locations (red is unable to shoot past its own initiation line, why bother tracking if they stopped there?
+ - Explicit deadzones to ignore in tracking shooter locations (red is unable to shoot past its own initiation line, why bother tracking if they stopped there?)
 
 ## Thanks
 
