@@ -2,11 +2,9 @@
 
 
 
-
-
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
-import requests
+import pip._vendor.requests
 import csv
 import datetime
 
@@ -15,7 +13,7 @@ baseURL = 'https://www.thebluealliance.com/api/v3/'
 header = {'X-TBA-Auth-Key':'EDIT ME!'}
 
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
-s = requests.Session()
+s = pip._vendor.requests.Session()
 
 baseGlobal = 2
 counterMaxGlobal = 35
