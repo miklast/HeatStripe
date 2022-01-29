@@ -4,19 +4,24 @@
 
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
+from tokenize import Double
 import pip._vendor.requests
 import csv
 import datetime
+from configparser import ConfigParser
+config = ConfigParser()
+config.read('settings.ini')
+
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
 #Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
-header = {'X-TBA-Auth-Key':'EDIT ME!'}
+header = {'X-TBA-Auth-Key':config.get('main','TBA-KEY')}
 
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
 s = pip._vendor.requests.Session()
 
-baseGlobal = 2
-counterMaxGlobal = 35
+baseGlobal = int(config.get('main', 'rounding'))
+counterMaxGlobal = int(config.get('main', 'stop-time'))
 
 def getTBA(url):
     #allows us to quickly call TBA api endpoints.
@@ -425,6 +430,8 @@ def mainMenu():
 def displayMenu():
 
     #having this as its own function makes it nicer to edit in the long run.
+
+    
     
     print("Zebra Parser for Excel/Tableau" + "\n")
     print("Menu:")
