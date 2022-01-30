@@ -360,7 +360,7 @@ def mainMenu():
 
     global baseGlobal, counterMaxGlobal
 
-    #todo: create all new menu 
+    # @todo: create all new menu 
 
     #This will be where the user will choose what they want to do.
     
@@ -483,7 +483,7 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
                 print("\n")
                 return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
             except:
-                traceback.print_exc()
+                #traceback.print_exc()
                 baseGlobal = 3
                 print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
                 return(baseGlobal, counterMaxGlobal)
