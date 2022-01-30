@@ -1,10 +1,12 @@
 from configparser import ConfigParser
 
+# function for the settings creation and checker, called every time the main program is run to make sure a settings file always exists
 def configSetup():
     config = ConfigParser()
 
     config.read('settings.ini')
 
+    #check for settings.ini. If it exists, we good. Otherwise, create with these default values.
     if 'main' in config:
         print("settings.ini already exists!")
 
