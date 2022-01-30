@@ -8,10 +8,14 @@ from tokenize import Double
 import pip._vendor.requests
 import csv
 import datetime
+import settingMaker
 from configparser import ConfigParser
+
+
+settingMaker.configSetup()
+
 config = ConfigParser()
 config.read('settings.ini')
-
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
 #Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
@@ -365,6 +369,7 @@ def mainMenu():
     QUIT = 0
 
     choice = 4513
+
 
     while choice != QUIT:
         displayMenu()
