@@ -360,7 +360,7 @@ def mainMenu():
 
     global baseGlobal, counterMaxGlobal
 
-    # @todo: create all new menu 
+    #todo: create all new menu 
 
     #This will be where the user will choose what they want to do.
     
