@@ -2,21 +2,17 @@
 
 
 
-#Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
+#Special thanks to kf#8888, hiyacynth#2841, and icecube45#8735 for their help in creating this program. 
+#This would of been a pile of junk without them.
 
 from tokenize import Double
 import pip._vendor.requests
 import csv
 import datetime
-import settingMaker
-import traceback
 from configparser import ConfigParser
-
-
-settingMaker.configSetup()
-
 config = ConfigParser()
 config.read('settings.ini')
+
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
 #Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
@@ -360,8 +356,6 @@ def mainMenu():
 
     global baseGlobal, counterMaxGlobal
 
-    #todo: create all new menu 
-
     #This will be where the user will choose what they want to do.
     
     WRITEFULLDATA = 1
@@ -372,7 +366,6 @@ def mainMenu():
     QUIT = 0
 
     choice = 4513
-
 
     while choice != QUIT:
         displayMenu()
@@ -475,28 +468,20 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
     while settingChoice != GOBACK:
         if settingChoice == BASEVALUE:
             try:
-                baseGlobalTemp = int(input("Enter new rounding value: "))
-                config.set('main', "rounding", str(baseGlobalTemp))
-                with open('settings.ini', 'w+') as f:
-                    config.write(f)
-                print("The rounding distance is " + str(int(config.get('main', 'rounding'))) + " feet.")
-                print("\n")
-                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
+                baseGlobal = int(input("Enter new rounding value: "))
             except:
-                #traceback.print_exc()
                 baseGlobal = 3
                 print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
                 return(baseGlobal, counterMaxGlobal)
         elif settingChoice == COUNTERMAXVALUE:
             try:
-                counterMaxGlobalTemp = str(input("Enter new time value: "))
-                counterMaxGlobalTemp = int(float(counterMaxGlobalTemp) * 10)
-                config.set('main', "stop-time", str(counterMaxGlobalTemp))
-                with open('settings.ini', 'w+') as f:
-                    config.write(f)
-                print("The time it takes for a location to be reorded is " + str(int(config.get('main', 'rounding'))/10) + " seconds.")
+                counterMaxGlobal = str(input("Enter new time value: "))
+                counterMaxGlobal = int(float(counterMaxGlobal) * 10)
+                print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
+                print(baseGlobal)
+                print(counterMaxGlobal)
                 print("\n")
-                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
+                return(baseGlobal, counterMaxGlobal)
             except:
                 counterMaxGlobal = 35
                 print("Invalid entry.")
@@ -535,7 +520,8 @@ def tutorial():
 
 try:
     if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
-        g = g #the heck does this do? why does everything break if i try to remove it? why does VSCode get so mad about me letting it exist? has to be some "true equals true" or something smh
+        g = g
+        
 except:
     print("Error:")
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")

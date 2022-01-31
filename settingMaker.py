@@ -12,6 +12,7 @@ def configSetup():
 
     elif 'main' not in config:
         config.add_section('main')
+        #Need to make a way to ask the user for key on first time startup
         config.set('main', 'TBA-KEY', '')
         config.set('main', "rounding",'2')
         config.set('main',"stop-time",'35')
