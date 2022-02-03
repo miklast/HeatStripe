@@ -10,13 +10,10 @@ from tokenize import Double
 import pip._vendor.requests
 import csv
 import datetime
-<<<<<<< HEAD
 import settingMaker
 import traceback
 from tkinter import *
 from tkinter import ttk
-=======
->>>>>>> 54f7b8a9b2b7d8aa607453e631a19a9cf7586fc4
 from configparser import ConfigParser
 config = ConfigParser()
 config.read('settings.ini')
