@@ -7,6 +7,7 @@
 
 from distutils import command
 from tokenize import Double
+from pip import main
 import pip._vendor.requests
 import csv
 import datetime
@@ -529,15 +530,17 @@ def guiMenu():
 
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test', relief='').grid(column=0, row = 0, padx=2, pady=2)
-    startButton = ttk.Button(mainframe, text='Collect Zebra Data', default="active", command =lambda: JSONToCSV(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
-    eventLabel = ttk.Entry(mainframe, textvariable=guiEventName).grid(column=2, row=3, padx=2, pady=3)
+    eventLabel = ttk.Label(mainframe, text="Event code:").grid(column=0, row=1, padx=2,pady=2)
+    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: JSONToCSV(str(guiEventName.get()))).grid(column=0, row=2, padx=2, pady=2)
+    autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: JSONToCSVAutos(str(guiEventName.get()))).grid(column=1, row=2, padx=2, pady=2)
+    stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: findShooterSpots(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
+    eventLabel = ttk.Entry(mainframe, textvariable=guiEventName).grid(column=1, row=1, padx=2, pady=3)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
 
     
     root.mainloop()
-
 
 
 
