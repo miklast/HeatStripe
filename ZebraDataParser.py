@@ -4,12 +4,15 @@
 
 #Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
+from distutils import command
 from tokenize import Double
 import pip._vendor.requests
 import csv
 import datetime
 import settingMaker
 import traceback
+from tkinter import *
+from tkinter import ttk
 from configparser import ConfigParser
 
 
@@ -76,6 +79,7 @@ def JSONToCSV(event):
     #JSONToCSV does as it says, takes the JSON output to a CSV file. To use with Tableau, you need an XLSX file though.
 
     #These set the class we call from, along with setting some base values for everything.
+    print(event)
     d = dataInput()
     qualVal = matchList(event)
     d.aliPos = 0 
@@ -529,17 +533,52 @@ def tutorial():
     print("Be aware that all of these are saved as CSV files, and need to be resaved as an XLSX file to be used in Tableau.")
     print("\n")
     
-        
+
+def guiMenu():
+
+    root = Tk()
+    root.title("HeatStripe")
+    guiEventName = StringVar()
+
+    mainframe = ttk.Frame(root, padding='3 3 12 12')
+    label = ttk.Label(mainframe, text='heatStripe test', relief='').grid(column=0, row = 0, padx=2, pady=2)
+    startButton = ttk.Button(mainframe, text='Collect Zebra Data', default="active", command =lambda: JSONToCSV(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
+    eventLabel = ttk.Entry(mainframe, textvariable=guiEventName).grid(column=2, row=3, padx=2, pady=2)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+
     
+    root.mainloop()
+
+
+
+
 
 
 try:
     if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
         g = g #the heck does this do? why does everything break if i try to remove it? why does VSCode get so mad about me letting it exist? has to be some "true equals true" or something smh
 except:
+
+    """
+    root = Tk()
+    root.title("API Error")
+
+    mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
+    label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(
+        column=0, row = 0, padx=5, pady=5)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+    #root.mainloop()
+    """
+    guiMenu()
+
     print("Error:")
     print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
     s.close()
 else:
-    mainMenu()
+    guiMenu()
+    #mainMenu()
     s.close()
