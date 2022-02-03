@@ -11,6 +11,12 @@ import csv
 from tkinter import *
 from tkinter import ttk
 from configparser import ConfigParser
+from ctypes import windll
+
+#should fix blurry text issue?
+windll.shcore.SetProcessDpiAwareness(1)
+
+#creates the reader and locates settings.ini to read 
 config = ConfigParser()
 config.read('settings.ini')
 
