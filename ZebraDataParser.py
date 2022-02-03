@@ -5,14 +5,9 @@
 #Special thanks to kf#8888, hiyacynth#2841, and icecube45#8735 for their help in creating this program. 
 #This would of been a pile of junk without them.
 
-from distutils import command
-from tokenize import Double
 from pip import main
 import pip._vendor.requests
 import csv
-import datetime
-import settingMaker
-import traceback
 from tkinter import *
 from tkinter import ttk
 from configparser import ConfigParser
