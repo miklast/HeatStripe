@@ -4,9 +4,11 @@ from os.path import exists as file_exists
 config = ConfigParser()
 
 def tbaAppend(tbaSecret):
+    print(tbaSecret)
     config.set('main', 'TBA-KEY', tbaSecret)
     with open('settings.ini', 'w+') as f:
         config.write(f)
+    return str(config.get('main', 'TBA-KEY'))
 
 
 

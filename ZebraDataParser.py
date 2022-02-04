@@ -546,13 +546,29 @@ def guiMenu():
     fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: JSONToCSV(str(guiEventName.get()))).grid(column=0, row=2, padx=2, pady=2)
     autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: JSONToCSVAutos(str(guiEventName.get()))).grid(column=1, row=2, padx=2, pady=2)
     stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: findShooterSpots(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
-    eventLabel = ttk.Entry(mainframe, textvariable=guiEventName).grid(column=1, row=1, padx=2, pady=3)
+    eventLabel = ttk.Entry(mainframe, textvariable=str(guiEventName)).grid(column=1, row=1, padx=2, pady=3)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
 
     
     root.mainloop()
+
+
+def apiErrorGui():
+    rootError = Tk()
+    rootError.title("API Error")
+    apiUserValue = StringVar()
+
+    mainframe = ttk.Frame(rootError, padding='3 3 12 12', borderwidth=5)
+    apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
+    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: settingMaker.tbaAppend(apiUserValue.get())).grid(column=2, row=2, padx=2, pady=2)
+    apiUserEntry = ttk.Entry(mainframe, width=64, textvariable=str(apiUserValue)).grid(column=0, row=1)
+    #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    rootError.columnconfigure(0, weight=1)
+    rootError.rowconfigure(0, weight=1)
+    rootError.mainloop()
 
 
 
@@ -563,22 +579,8 @@ try:
         g = g
         
 except:
-
     
-    root = Tk()
-    root.title("API Error")
-    apiUserEntry = StringVar()
-
-    mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
-    apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
-    apiUserEntry = ttk.Entry(mainframe, textvariable=apiUserEntry, width=64).grid(column=0, row=1)
-    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: settingMaker.tbaAppend(str(apiUserEntry))).grid(column=2, row=2, padx=2, pady=2)
-    #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
-    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-    root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
-    root.mainloop()
-    
+    apiErrorGui()
     
     s.close()
 else:
