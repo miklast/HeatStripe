@@ -1,9 +1,17 @@
 from configparser import ConfigParser
 from os.path import exists as file_exists
 
+config = ConfigParser()
+
+def tbaAppend(tbaSecret):
+    config.set('main', 'TBA-KEY', tbaSecret)
+    with open('settings.ini', 'w+') as f:
+        config.write(f)
+
+
+
 # function for the settings creation and checker, called every time the main program is run to make sure a settings file always exists
 def configSetup():
-    config = ConfigParser()
 
     config.read('settings.ini')
 

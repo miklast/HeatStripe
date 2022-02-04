@@ -572,7 +572,7 @@ except:
     mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
     apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
     apiUserEntry = ttk.Entry(mainframe, textvariable=apiUserEntry, width=64).grid(column=0, row=1)
-    #saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: ).grid(column=2, row=2, padx=2, pady=2)
+    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: settingMaker.tbaAppend(str(apiUserEntry))).grid(column=2, row=2, padx=2, pady=2)
     #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
