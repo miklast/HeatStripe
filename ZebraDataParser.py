@@ -13,8 +13,12 @@ from tkinter import ttk
 from configparser import ConfigParser
 from ctypes import windll
 
+import settingMaker
+
 #should fix blurry text issue?
 windll.shcore.SetProcessDpiAwareness(1)
+
+settingMaker.configSetup()
 
 #creates the reader and locates settings.ini to read 
 config = ConfigParser()
@@ -476,20 +480,27 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
     while settingChoice != GOBACK:
         if settingChoice == BASEVALUE:
             try:
-                baseGlobal = int(input("Enter new rounding value: "))
+                baseGlobalTemp = int(input("Enter new rounding value: "))
+                config.set('main', "rounding", str(baseGlobalTemp))
+                with open('settings.ini', 'w+') as f:
+                    config.write(f)
+                print("The rounding distance is " + str(int(config.get('main', 'rounding'))) + " feet.")
+                print("\n")
+                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
             except:
                 baseGlobal = 3
                 print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
                 return(baseGlobal, counterMaxGlobal)
         elif settingChoice == COUNTERMAXVALUE:
             try:
-                counterMaxGlobal = str(input("Enter new time value: "))
-                counterMaxGlobal = int(float(counterMaxGlobal) * 10)
-                print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
-                print(baseGlobal)
-                print(counterMaxGlobal)
+                counterMaxGlobalTemp = str(input("Enter new time value: "))
+                counterMaxGlobalTemp = int(float(counterMaxGlobalTemp) * 10)
+                config.set('main', "stop-time", str(counterMaxGlobalTemp))
+                with open('settings.ini', 'w+') as f:
+                    config.write(f)
+                print("The time it takes for a location to be reorded is " + str(int(config.get('main', 'rounding'))/10) + " seconds.")
                 print("\n")
-                return(baseGlobal, counterMaxGlobal)
+                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
             except:
                 counterMaxGlobal = 35
                 print("Invalid entry.")
@@ -561,6 +572,7 @@ except:
     mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
     apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
     apiUserEntry = ttk.Entry(mainframe, textvariable=apiUserEntry, width=64).grid(column=0, row=1)
+    #saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: ).grid(column=2, row=2, padx=2, pady=2)
     #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
