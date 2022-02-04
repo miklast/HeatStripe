@@ -5,6 +5,8 @@
 #Special thanks to kf#8888, hiyacynth#2841, and icecube45#8735 for their help in creating this program. 
 #This would of been a pile of junk without them.
 
+from fileinput import close
+from logging import root
 from pip import main
 import pip._vendor.requests
 import csv
@@ -562,7 +564,7 @@ def apiErrorGui():
 
     mainframe = ttk.Frame(rootError, padding='3 3 12 12', borderwidth=5)
     apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
-    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: settingMaker.tbaAppend(apiUserValue.get())).grid(column=2, row=2, padx=2, pady=2)
+    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: [settingMaker.tbaAppend(apiUserValue.get()), rootError.destroy()]).grid(column=2, row=2, padx=2, pady=2)
     apiUserEntry = ttk.Entry(mainframe, width=64, textvariable=str(apiUserValue)).grid(column=0, row=1)
     #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
