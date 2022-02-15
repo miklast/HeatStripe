@@ -5,9 +5,7 @@
 #Special thanks to kf#8888, hiyacynth#2841, and icecube45#8735 for their help in creating this program. 
 #This would of been a pile of junk without them.
 
-from fileinput import close
-from logging import root
-from pip import main
+
 import pip._vendor.requests
 import csv
 from tkinter import *
@@ -541,6 +539,9 @@ def guiMenu():
     root = Tk()
     root.title("HeatStripe")
     guiEventName = StringVar()
+
+    photo = PhotoImage(file = "g19.png")
+    root.iconphoto(False, photo)
 
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
