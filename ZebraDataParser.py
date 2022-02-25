@@ -83,6 +83,8 @@ def JSONToCSV(event):
     #JSONToCSV does as it says, takes the JSON output to a CSV file. To use with Tableau, you need an XLSX file though.
 
     #These set the class we call from, along with setting some base values for everything.
+
+    
     print(event)
     d = dataInput()
     qualVal = matchList(event)
@@ -374,7 +376,7 @@ def mainMenu():
     WRITEAUTODATA = 2
     WRITESHOTLOCATION = 3
     SETTINGS = 4
-    HOWTO = 5
+    #HOWTO = 5
     QUIT = 0
 
     choice = 4513
@@ -433,8 +435,8 @@ def mainMenu():
         elif choice == SETTINGS:
             baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal)
 
-        elif choice == HOWTO:
-            tutorial()
+        #elif choice == HOWTO:
+            #tutorial()
 
         else:
             print("A valid choice was not selected. Please try again.")
@@ -517,7 +519,7 @@ def guiMenu():
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
     eventLabel = ttk.Label(mainframe, text="Event code:").grid(column=0, row=1, padx=2,pady=2)
-    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: JSONToCSV(str(guiEventName.get()))).grid(column=0, row=2, padx=2, pady=2)
+    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: [guiProgress(), JSONToCSV(str(guiEventName.get()))]).grid(column=0, row=2, padx=2, pady=2)
     autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: JSONToCSVAutos(str(guiEventName.get()))).grid(column=1, row=2, padx=2, pady=2)
     stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: findShooterSpots(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
     eventLabel = ttk.Entry(mainframe, textvariable=str(guiEventName)).grid(column=1, row=1, padx=2, pady=3)
@@ -526,7 +528,18 @@ def guiMenu():
     root.rowconfigure(0, weight=1)
 
     
+
+    
     root.mainloop()
+
+def guiProgress():
+    global pop
+    pop = Toplevel(root)
+    pop.title("progress")
+    pop.config(bg="green")
+    pBar = ttk.Progressbar(root, orient='horizontal', mode='indeterminate', length=280)
+    pBar.start
+
 
 
 def apiErrorGui():
