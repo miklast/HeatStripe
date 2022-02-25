@@ -536,12 +536,6 @@ def tutorial():
 
 def guiMenu():
 
-    root = Tk()
-    root.title("HeatStripe")
-    guiEventName = StringVar()
-
-    photo = PhotoImage(file = "g19.png")
-    root.iconphoto(False, photo)
 
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
@@ -559,22 +553,28 @@ def guiMenu():
 
 
 def apiErrorGui():
-    rootError = Tk()
-    rootError.title("API Error")
     apiUserValue = StringVar()
 
-    mainframe = ttk.Frame(rootError, padding='3 3 12 12', borderwidth=5)
+    #Im fairly sure this is still not the "most correct" way to do this, so i should come back and clean up the popup
+    mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
     apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
-    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: [settingMaker.tbaAppend(apiUserValue.get()), rootError.destroy()]).grid(column=2, row=2, padx=2, pady=2)
+    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: [settingMaker.tbaAppend(apiUserValue.get()), root.destroy()]).grid(column=2, row=2, padx=2, pady=2)
     apiUserEntry = ttk.Entry(mainframe, width=64, textvariable=str(apiUserValue)).grid(column=0, row=1)
     #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-    rootError.columnconfigure(0, weight=1)
-    rootError.rowconfigure(0, weight=1)
-    rootError.mainloop()
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+    root.mainloop()
 
 
 
+
+root = Tk()
+root.title("HeatStripe")
+guiEventName = StringVar()
+
+photo = PhotoImage(file = "g19.png")
+root.iconphoto(False, photo)
 
 
 try:
@@ -588,5 +588,4 @@ except:
     s.close()
 else:
     guiMenu()
-    #mainMenu()
     s.close()
