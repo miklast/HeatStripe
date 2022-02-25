@@ -509,29 +509,6 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
             
     return baseGlobal, counterMaxGlobal
 
-def tutorial():
-    
-    print("\n")
-    print("\n")
-    print("\n")
-    print("Tutorial:")
-    print("\n")
-    print("This program is made to take Zebra JSON outputs and form them in such a way that makes them useful for Excel and Tableau use.")
-    print("Each of the main options will ask for an event code. You can find these in the URL of every events page.")
-    print("For example, if you wanted data from 2020 PNW West Valley District Event, the event code would be '2020waspo'.")
-    print("Currently, there are three different options for what data to collect:")
-    print("\n")
-    print("1. Full match Zebra Data: Collect all zebra data from an event and put it into one file.")
-    print("These will get fairly large for an excel file (20mb) and may cause loading issues with tableau on weaker PC's.")
-    print("\n")
-    print("2. Zebra Auto Data: This will collect the first 16 seconds of every match and save them into one file.")
-    print("This is great for finding paths of teams that you will be competing with/against at an event.")
-    print("\n")
-    print("3. Zebra Shooter Location: This will comb through the data to find where teams are consistently in one spot, and save those locations.")
-    print("The default time is 3.5s in one spot, with each location value rounded to the nearest 3ft mark. These can be edited in Settings.")
-    print("\n")
-    print("Be aware that all of these are saved as CSV files, and need to be resaved as an XLSX file to be used in Tableau.")
-    print("\n")
     
 
 def guiMenu():
