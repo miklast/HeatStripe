@@ -367,68 +367,6 @@ def findShooterSpots(event):
         print(str(d.matchNumber - 1) + " matches have been saved")
                         
 
-
-
-                #how accessing the settings used to work
-                #Todo: settings
-"""         elif choice == SETTINGS:
-            baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal) """
-
-""" def settingsMenu(baseGlobal, counterMaxGlobal):
-
-    #Todo: gui menus
-
-    print("\n")
-    print("Please note that you will have to change these values every time you start the program.")
-    print("A future update before Week 1 events should fix this, but if it hasnt, please bug me about it.")
-    print("\n")
-
-    BASEVALUE = 1
-    COUNTERMAXVALUE = 2
-    GOBACK = 0
-
-    print("The rounding for shooter location recording is " + str(baseGlobal) + " feet.")
-    print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
-
-    print("1. Change the rounding value")
-    print("2. Change the time value")
-    print("0. Go back to the main menu")
-    print("\n")
-
-    settingChoice = int(input("Please select which value you want to change: "))
-
-    while settingChoice != GOBACK:
-        if settingChoice == BASEVALUE:
-            try:
-                baseGlobalTemp = int(input("Enter new rounding value: "))
-                config.set('main', "rounding", str(baseGlobalTemp))
-                with open('settings.ini', 'w+') as f:
-                    config.write(f)
-                print("The rounding distance is " + str(int(config.get('main', 'rounding'))) + " feet.")
-                print("\n")
-                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
-            except:
-                baseGlobal = 3
-                print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
-                return(baseGlobal, counterMaxGlobal)
-        elif settingChoice == COUNTERMAXVALUE:
-            try:
-                counterMaxGlobalTemp = str(input("Enter new time value: "))
-                counterMaxGlobalTemp = int(float(counterMaxGlobalTemp) * 10)
-                config.set('main', "stop-time", str(counterMaxGlobalTemp))
-                with open('settings.ini', 'w+') as f:
-                    config.write(f)
-                print("The time it takes for a location to be reorded is " + str(int(config.get('main', 'rounding'))/10) + " seconds.")
-                print("\n")
-                return(int(config.get('main', 'rounding')), int(config.get('main', 'stop-time')))
-            except:
-                counterMaxGlobal = 35
-                print("Invalid entry.")
-        else:
-            continue
-            
-    return baseGlobal, counterMaxGlobal """
-
     
 
 def guiMenu():
