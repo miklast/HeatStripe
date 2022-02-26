@@ -545,19 +545,23 @@ def guiDelegator(eventName, commandType):
     except:
         #add popup error
         pop = Toplevel(root)
-        errorText = ttk.Label(pop, text="No match data has been found for this event. Double check the event code.").grid(column=0, row=2, padx=2, pady=2)
+        errorText = ttk.Label(pop, text="No match data has been found for this event. Please double check that the event code is correct.").grid(column=0, row=2, padx=2, pady=2)
         #pop.grid(column=0, row=1, padx=1, pady=1)
         print("error")
 
     else:
+
         #add program running
         match commandType: 
             case 0:
-                return JSONToCSV(eventName)
+                 progResp = JSONToCSV(eventName)
             case 1:
-                return JSONToCSVAutos(eventName)
+                 progResp = JSONToCSVAutos(eventName)
             case 2:
-                return findShooterSpots(eventName)
+                 progResp = findShooterSpots(eventName)
+
+    
+    return progResp
         
 
 
