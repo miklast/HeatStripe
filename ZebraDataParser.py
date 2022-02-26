@@ -519,7 +519,7 @@ def guiMenu():
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
     eventLabel = ttk.Label(mainframe, text="Event code:").grid(column=0, row=1, padx=2,pady=2)
-    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: [guiProgress(), JSONToCSV(str(guiEventName.get()))]).grid(column=0, row=2, padx=2, pady=2)
+    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: [JSONToCSV(str(guiEventName.get()))]).grid(column=0, row=2, padx=2, pady=2)
     autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: JSONToCSVAutos(str(guiEventName.get()))).grid(column=1, row=2, padx=2, pady=2)
     stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: findShooterSpots(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
     eventLabel = ttk.Entry(mainframe, textvariable=str(guiEventName)).grid(column=1, row=1, padx=2, pady=3)
@@ -532,13 +532,21 @@ def guiMenu():
     
     root.mainloop()
 
-def guiProgress():
-    global pop
-    pop = Toplevel(root)
-    pop.title("progress")
-    pop.config(bg="green")
-    pBar = ttk.Progressbar(root, orient='horizontal', mode='indeterminate', length=280)
-    pBar.start
+
+def guiDelegator(eventName, commandType):
+    #Purpose is to create a function for the progress bar and to do some error checking on the event before sending it to other programs
+
+    try:
+        if getTBA(eventName)['alliances']['red']['score'] == -1 or getTBA(eventName)['alliances']['red']['score'] == None:
+            g=g
+    
+    except:
+        #add popup error
+        print("error")
+
+    else:
+        #add program running
+        g=g
 
 
 
