@@ -6,7 +6,7 @@
 #This would of been a pile of junk without them.
 
 
-from distutils import command
+
 import pip._vendor.requests
 import csv
 from tkinter import *
@@ -27,7 +27,7 @@ config.read('settings.ini')
 
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
-#Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
+#Is set in the 'settings.ini' fileS
 header = {'X-TBA-Auth-Key':config.get('main','TBA-KEY')}
 
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
@@ -447,6 +447,8 @@ def displayMenu():
 
     #having this as its own function makes it nicer to edit in the long run.
 
+    #Past me was smart for this. Now its even easier to remove when i get the gui finished xd
+
     
     
     print("Zebra Parser for Excel/Tableau" + "\n")
@@ -460,6 +462,8 @@ def displayMenu():
     print("\n")
 
 def settingsMenu(baseGlobal, counterMaxGlobal):
+
+    #Todo: gui menus
 
     print("\n")
     print("Please note that you will have to change these values every time you start the program.")
@@ -535,23 +539,27 @@ def guiMenu():
 
 
 def guiDelegator(eventName, commandType):
-    #Purpose is to create a function for the progress bar and to do some error checking on the event before sending it to other programs
+    #guiDelegator currenty does the errorhandling for the user input then delegates the tasks to the respective functions, and then sends a success or failure message based on what happens
+    #Future goals include adding a progress bar, as currently there is no way for the user to tell if the program is working or completely frozen, which is not ideal.
     eventExceptionTest = "match/" + eventName + "_qm1"
+
 
     try:
         if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
             g=g
     
     except:
-        #add popup error
+        #Theres bound to be a way i can include this at the beginning of the function and have it work for all instances. Need to mess with that
         pop = Toplevel(root)
+        photo = PhotoImage(file = "g19.png")
+        pop.iconphoto(False, photo)
         errorText = ttk.Label(pop, text="No match data has been found for this event. Please double check that the event code is correct.").grid(column=0, row=2, padx=2, pady=2)
         #pop.grid(column=0, row=1, padx=1, pady=1)
-        print("error")
 
     else:
 
-        #add program running
+        #match is just Python's switch function. 
+        #We take the input from the gui menu and whatever # value its associated gets sent in for that command to run. Nifty and it emulates my original pipeline really well
         match commandType: 
             case 0:
                  progResp = JSONToCSV(eventName)
@@ -560,7 +568,12 @@ def guiDelegator(eventName, commandType):
             case 2:
                  progResp = findShooterSpots(eventName)
 
-    
+    matchNum = matchList(eventName)
+    pop = Toplevel(root)
+    photo = PhotoImage(file = "g19.png")
+    pop.iconphoto(False, photo)
+    successPopup = ttk.Label(pop, text= str(matchNum) + " matches have been saved").grid(column=0, row=2, padx=2, pady=2)
+
     return progResp
         
 
@@ -575,7 +588,6 @@ def apiErrorGui():
     apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
     saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: [settingMaker.tbaAppend(apiUserValue.get()), root.destroy()]).grid(column=2, row=2, padx=2, pady=2)
     apiUserEntry = ttk.Entry(mainframe, width=64, textvariable=str(apiUserValue)).grid(column=0, row=1)
-    #label = ttk.Label(mainframe, text='No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.').grid(column=0, row = 0, padx=5, pady=5)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
