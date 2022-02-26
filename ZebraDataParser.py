@@ -6,6 +6,7 @@
 #This would of been a pile of junk without them.
 
 
+from distutils import command
 import pip._vendor.requests
 import csv
 from tkinter import *
@@ -519,9 +520,9 @@ def guiMenu():
     mainframe = ttk.Frame(root, padding='3 3 12 12')
     label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
     eventLabel = ttk.Label(mainframe, text="Event code:").grid(column=0, row=1, padx=2,pady=2)
-    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: [JSONToCSV(str(guiEventName.get()))]).grid(column=0, row=2, padx=2, pady=2)
-    autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: JSONToCSVAutos(str(guiEventName.get()))).grid(column=1, row=2, padx=2, pady=2)
-    stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: findShooterSpots(str(guiEventName.get()))).grid(column=2, row=2, padx=2, pady=2)
+    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 0)).grid(column=0, row=2, padx=2, pady=2)
+    autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 1)).grid(column=1, row=2, padx=2, pady=2)
+    stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 2)).grid(column=2, row=2, padx=2, pady=2)
     eventLabel = ttk.Entry(mainframe, textvariable=str(guiEventName)).grid(column=1, row=1, padx=2, pady=3)
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
     root.columnconfigure(0, weight=1)
@@ -535,18 +536,30 @@ def guiMenu():
 
 def guiDelegator(eventName, commandType):
     #Purpose is to create a function for the progress bar and to do some error checking on the event before sending it to other programs
+    eventExceptionTest = "match/" + eventName + "_qm1"
 
     try:
-        if getTBA(eventName)['alliances']['red']['score'] == -1 or getTBA(eventName)['alliances']['red']['score'] == None:
+        if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
             g=g
     
     except:
         #add popup error
+        pop = Toplevel(root)
+        errorText = ttk.Label(pop, text="No match data has been found for this event. Double check the event code.").grid(column=0, row=2, padx=2, pady=2)
+        #pop.grid(column=0, row=1, padx=1, pady=1)
         print("error")
 
     else:
         #add program running
-        g=g
+        match commandType: 
+            case 0:
+                return JSONToCSV(eventName)
+            case 1:
+                return JSONToCSVAutos(eventName)
+            case 2:
+                return findShooterSpots(eventName)
+        
+
 
 
 
