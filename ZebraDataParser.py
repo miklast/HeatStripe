@@ -558,6 +558,7 @@ def guiDelegator(eventName, commandType):
         #pop.grid(column=0, row=1, padx=1, pady=1)
 
     else:
+        matchNum = matchList(eventName)
 
         #match is just Python's switch function. 
         #We take the input from the gui menu and whatever # value its associated gets sent in for that command to run. Nifty and it emulates my original pipeline really well
@@ -569,14 +570,12 @@ def guiDelegator(eventName, commandType):
             case 2:
                  progResp = findShooterSpots(eventName)
 
-    matchNum = matchList(eventName)
-    pop = Toplevel(root)
-    photo = PhotoImage(file = "g19.png")
-    pop.iconphoto(False, photo)
-    successPopup = ttk.Label(pop, justify='center', text= str(matchNum) + " matches have been saved").grid(column=0, row=2, padx=2, pady=2)
-    
+        pop = Toplevel(root)
+        photo = PhotoImage(file = "g19.png")
+        pop.iconphoto(False, photo)
+        successPopup = ttk.Label(pop, text= str(matchNum) + " matches have been saved").grid(column=0, row = 1, padx=12, pady=6)
+        saveButton = ttk.Button(pop, text='Okay', default="active", command =lambda: pop.destroy()).grid(column=0, row=2, padx=2, pady=2)
 
-    return progResp
         
 
 
