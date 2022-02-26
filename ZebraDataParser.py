@@ -367,101 +367,14 @@ def findShooterSpots(event):
         print(str(d.matchNumber - 1) + " matches have been saved")
                         
 
-def mainMenu():
 
-    global baseGlobal, counterMaxGlobal
 
-    #This will be where the user will choose what they want to do.
-    
-    WRITEFULLDATA = 1
-    WRITEAUTODATA = 2
-    WRITESHOTLOCATION = 3
-    SETTINGS = 4
-    #HOWTO = 5
-    QUIT = 0
+                #how accessing the settings used to work
+                #Todo: settings
+"""         elif choice == SETTINGS:
+            baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal) """
 
-    choice = 4513
-
-    while choice != QUIT:
-        displayMenu()
-
-        try:
-            choice = int(input("Please choose an option from the menu: "))
-        except ValueError:
-            print("\n")
-            print("Please use the numbers provided to select a menu option.")
-            
-        if choice == WRITEFULLDATA:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                JSONToCSV(event) 
-
-        elif choice == WRITEAUTODATA:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                JSONToCSVAutos(event) 
-
-        elif choice == WRITESHOTLOCATION:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                findShooterSpots(event)
-
-        elif choice == SETTINGS:
-            baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal)
-
-        #elif choice == HOWTO:
-            #tutorial()
-
-        else:
-            print("A valid choice was not selected. Please try again.")
-            print("\n")
-
-def displayMenu():
-
-    #having this as its own function makes it nicer to edit in the long run.
-
-    #Past me was smart for this. Now its even easier to remove when i get the gui finished xd
-
-    
-    
-    print("Zebra Parser for Excel/Tableau" + "\n")
-    print("Menu:")
-    print("1. save an event's Zebra data")
-    print("2. Save only an event's auto Zebra data")
-    print("3. Save shooter locations based on Zebra data")
-    print("4. Change shooter location settings")
-    print("5. Explain how the program works")
-    print("0. quit")
-    print("\n")
-
-def settingsMenu(baseGlobal, counterMaxGlobal):
+""" def settingsMenu(baseGlobal, counterMaxGlobal):
 
     #Todo: gui menus
 
@@ -514,7 +427,7 @@ def settingsMenu(baseGlobal, counterMaxGlobal):
         else:
             continue
             
-    return baseGlobal, counterMaxGlobal
+    return baseGlobal, counterMaxGlobal """
 
     
 
