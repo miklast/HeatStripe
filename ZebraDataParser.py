@@ -553,7 +553,8 @@ def guiDelegator(eventName, commandType):
         pop = Toplevel(root)
         photo = PhotoImage(file = "g19.png")
         pop.iconphoto(False, photo)
-        errorText = ttk.Label(pop, text="No match data has been found for this event. Please double check that the event code is correct.").grid(column=0, row=2, padx=2, pady=2)
+        errorText = ttk.Label(pop, text="No match data has been found for this event. Please double check that the event code is correct.").grid(column=0, row = 1, padx=12, pady=6)
+        saveButton = ttk.Button(pop, text='Okay', default="active", command =lambda: pop.destroy()).grid(column=0, row=2, padx=2, pady=2)
         #pop.grid(column=0, row=1, padx=1, pady=1)
 
     else:
@@ -572,7 +573,8 @@ def guiDelegator(eventName, commandType):
     pop = Toplevel(root)
     photo = PhotoImage(file = "g19.png")
     pop.iconphoto(False, photo)
-    successPopup = ttk.Label(pop, text= str(matchNum) + " matches have been saved").grid(column=0, row=2, padx=2, pady=2)
+    successPopup = ttk.Label(pop, justify='center', text= str(matchNum) + " matches have been saved").grid(column=0, row=2, padx=2, pady=2)
+    
 
     return progResp
         
