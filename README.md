@@ -40,6 +40,8 @@ You can find high quality field photos for the 2022 season in this [Chief Delphi
 
 ## Thanks
 
+Thanks to Caleb Jackson for creating the logo.
+
 These people helped make this project possible:
 
 
