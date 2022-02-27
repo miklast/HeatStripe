@@ -3,7 +3,7 @@
 Quickly download and play with ZEBRA Motionworks data in a simple and usable format.
 
 ## Use
-This program allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks tracking will be at over 10 events this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any movement on the field and take your scouting to the next level with little required work.
+HeatStripe allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks has been annoucned for 10 events already this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any movement on the field and take your scouting to the next level with little required work.
 
 ![](https://i.imgur.com/HNSmIwj.png)
 
@@ -14,7 +14,7 @@ This program allows you to save the JSON data ZEBRA MotionWorks outputs given by
 ![](https://i.imgur.com/vCC05gy.png)
 
 ## Install
-1. Download the latest version of Python. This program only works on Python 3.10 and above.
+1. Download the latest version of Python and Pip. This program only works on Python 3.10 and above.
 
 2. Download and extract the program.
 
@@ -26,13 +26,13 @@ This program allows you to save the JSON data ZEBRA MotionWorks outputs given by
 
 ## FAQ
 
-**Q. How do I add the field image in Tableau?
+**Q. How do I add a field image in Tableau?
 
  To add a background map in Tableau, go to Map > Background Images, and upload a field image using the X and Y columns as the X and Y fields.
 
 ![Example of adding an image to a sheet](https://i.imgur.com/f8T7gXN.gif)
 
-You can find high quality field photos for the 2022 season in this Chief Delphi thread.
+You can find high quality field photos for the 2022 season in this [Chief Delphi thread.](https://www.chiefdelphi.com/t/2022-top-down-field-renders/399031?u=miklast) For the best results, use the file labeled with the prefix "cropped".
 
 ## Thanks
 
