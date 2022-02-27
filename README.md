@@ -30,13 +30,13 @@ This program allows you to save the JSON data ZEBRA MotionWorks outputs given by
 
 ## FAQ
 
-**Q. How do I add the field image in Tableau?
+**Q. How do I add the field image in Tableau?**
 
  To add a background map in Tableau, go to Map > Background Images, and upload a field image using the X and Y columns as the X and Y fields.
 
 ![Example of adding an image to a sheet](https://i.imgur.com/f8T7gXN.gif)
 
-You can find high quality field photos for the 2022 season in this [Chief Delphi thread.](https://www.chiefdelphi.com/t/2022-top-down-field-renders/399031?u=miklast). Use the photo with the prefix "cropped" for the best results.
+You can find high quality field photos for the 2022 season in this [Chief Delphi thread](https://www.chiefdelphi.com/t/2022-top-down-field-renders/399031?u=miklast). Use the photo with the prefix "cropped" for the best results.
 
 ## Thanks
 
