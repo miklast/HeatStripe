@@ -7,7 +7,7 @@
 Quickly download and play with ZEBRA Motionworks data in a simple and usable format.
 
 ## Use
-This program allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks tracking will be at over 10 events this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any movement on the field and take your scouting to the next level with little required work.
+HeatStripe allows you to save the JSON data ZEBRA MotionWorks outputs given by [The Blue Alliance](https://www.thebluealliance.com/) into an easily readable excel based format (CSV) for use in both in Excel and Tableau. ZEBRA MotionWorks tracking will be at over 10 events this year, so being able to make use of this data will be huge, especially if you are at an event with this technology available. With Tableau, you can easily use this data to track any movement on the field and take your scouting to the next level with little required work.
 
 ![](https://i.imgur.com/HNSmIwj.png)
 
@@ -18,17 +18,29 @@ This program allows you to save the JSON data ZEBRA MotionWorks outputs given by
 ![](https://i.imgur.com/vCC05gy.png)
 
 ## Install
-1. Download the latest version of Python. This program only works on Python 3.10 and above.
+1. Download the latest versions of Python and pip. This program only works on Python 3.10 and above.
 
-2. Download and extract the program.
+2. Download and extract HeatStripe.
 
 3. Generate a TBA API key. This is used to access data from The Blue Alliance. You can generate a TBA API key [here.](https://www.thebluealliance.com/account)
 
-3. Run the program. The first time setup will have you enter your API key. You will need to run the program a 2nd time to have the changes save fully.
+3. Run HeatStripe.py. The first time setup will have you enter your API key. You will need to run it a 2nd time to have the changes save fully.
 
-4. If the data is for use within Tableau, you must resave the data from a CSV file to an XLSX file to be able to connect it to Tableau. Tableau does not like large CSV files and will refuse to run properly with them.
+4. Enter an event code with ZEBRA Motionworks data and let HeatStripe condense the data. It may seem non-responsive during that time, but that is normal operation.  
+
+5. If the data is for use within Tableau, you must resave the data from a CSV file to an XLSX file to be able to connect it to Tableau. Tableau does not like large CSV files and will refuse to run properly with them.
 
 ## FAQ
+
+**Q. Where do i find event codes?**
+
+Event codes can be found on any TBA or frc-events page by looking at the event url. For example, the 2022 PNW District Championship is ``2022pncmp``. You can find examples of both within their URL's below:
+
+![Example TBA url for finding event code](https://i.imgur.com/8GonLg0.png)
+
+![Example frc-events url for finding event code](https://i.imgur.com/BC4mg7H.png)
+
+Do note that the year must be included for the event code to properly work.
 
 **Q. How do I add the field image in Tableau?**
 
