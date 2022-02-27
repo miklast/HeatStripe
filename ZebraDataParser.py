@@ -2,23 +2,39 @@
 
 
 
+#Special thanks to kf#8888, hiyacynth#2841, and icecube45#8735 for their help in creating this program. 
+#This would of been a pile of junk without them.
 
 
-#Special thanks to not tim#6864, hiyacynth#2841, and icecube45#8735 for their help in creating this program. This would of been a pile of junk without them.
 
-import requests
+import pip._vendor.requests
 import csv
-import datetime
+from tkinter import *
+from tkinter import ttk
+from configparser import ConfigParser
+from ctypes import windll
+
+import settingMaker
+
+#should fix blurry text issue?
+windll.shcore.SetProcessDpiAwareness(1)
+
+settingMaker.configSetup()
+
+#creates the reader and locates settings.ini to read 
+config = ConfigParser()
+config.read('settings.ini')
+
 
 baseURL = 'https://www.thebluealliance.com/api/v3/'
-#Make sure to grab a TBA API Key and slap it within the ''. Example: 'key here'
-header = {'X-TBA-Auth-Key':'EDIT ME!'}
+#Is set in the 'settings.ini' fileS
+header = {'X-TBA-Auth-Key':config.get('main','TBA-KEY')}
 
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
-s = requests.Session()
+s = pip._vendor.requests.Session()
 
-baseGlobal = 2
-counterMaxGlobal = 35
+baseGlobal = int(config.get('main', 'rounding'))
+counterMaxGlobal = int(config.get('main', 'stop-time'))
 
 def getTBA(url):
     #allows us to quickly call TBA api endpoints.
@@ -68,6 +84,9 @@ def JSONToCSV(event):
     #JSONToCSV does as it says, takes the JSON output to a CSV file. To use with Tableau, you need an XLSX file though.
 
     #These set the class we call from, along with setting some base values for everything.
+
+    
+    print(event)
     d = dataInput()
     qualVal = matchList(event)
     d.aliPos = 0 
@@ -348,177 +367,104 @@ def findShooterSpots(event):
         print(str(d.matchNumber - 1) + " matches have been saved")
                         
 
-def mainMenu():
-
-    global baseGlobal, counterMaxGlobal
-
-    #This will be where the user will choose what they want to do.
     
-    WRITEFULLDATA = 1
-    WRITEAUTODATA = 2
-    WRITESHOTLOCATION = 3
-    SETTINGS = 4
-    HOWTO = 5
-    QUIT = 0
 
-    choice = 4513
+def guiMenu():
 
-    while choice != QUIT:
-        displayMenu()
 
-        try:
-            choice = int(input("Please choose an option from the menu: "))
-        except ValueError:
-            print("\n")
-            print("Please use the numbers provided to select a menu option.")
-            
-        if choice == WRITEFULLDATA:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                JSONToCSV(event) 
+    mainframe = ttk.Frame(root, padding='3 3 12 12')
+    label = ttk.Label(mainframe, text='heatStripe test').grid(column=0, row = 0, padx=2, pady=2)
+    eventLabel = ttk.Label(mainframe, text="Event code:").grid(column=0, row=1, padx=2,pady=2)
+    fullEventButton = ttk.Button(mainframe, text='Collect Match Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 0)).grid(column=0, row=2, padx=2, pady=2)
+    autoButton = ttk.Button(mainframe, text='Collect Auto Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 1)).grid(column=1, row=2, padx=2, pady=2)
+    stopPointButton = ttk.Button(mainframe, text='Collect Stop Data', default="active", command =lambda: guiDelegator(str(guiEventName.get()), 2)).grid(column=2, row=2, padx=2, pady=2)
+    eventLabel = ttk.Entry(mainframe, textvariable=str(guiEventName)).grid(column=1, row=1, padx=2, pady=3)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
 
-        elif choice == WRITEAUTODATA:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                JSONToCSVAutos(event) 
-
-        elif choice == WRITESHOTLOCATION:
-            event = input("Enter event code: ")
-            eventExceptionTest = "match/" + event + "_qm1"
-            try:
-                if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
-                    g=g
-            except:
-                print ("\n")
-                print("Error:")
-                print("No match data has been found for this event. Has the event started?")
-                print ("\n")
-            else:
-                findShooterSpots(event)
-
-        elif choice == SETTINGS:
-            baseGlobal, counterMaxGlobal = settingsMenu(baseGlobal, counterMaxGlobal)
-
-        elif choice == HOWTO:
-            tutorial()
-
-        else:
-            print("A valid choice was not selected. Please try again.")
-            print("\n")
-
-def displayMenu():
-
-    #having this as its own function makes it nicer to edit in the long run.
     
-    print("Zebra Parser for Excel/Tableau" + "\n")
-    print("Menu:")
-    print("1. save an event's Zebra data")
-    print("2. Save only an event's auto Zebra data")
-    print("3. Save shooter locations based on Zebra data")
-    print("4. Change shooter location settings")
-    print("5. Explain how the program works")
-    print("0. quit")
-    print("\n")
 
-def settingsMenu(baseGlobal, counterMaxGlobal):
-
-    print("\n")
-    print("Please note that you will have to change these values every time you start the program.")
-    print("A future update before Week 1 events should fix this, but if it hasnt, please bug me about it.")
-    print("\n")
-
-    BASEVALUE = 1
-    COUNTERMAXVALUE = 2
-    GOBACK = 0
-
-    print("The rounding for shooter location recording is " + str(baseGlobal) + " feet.")
-    print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
-
-    print("1. Change the rounding value")
-    print("2. Change the time value")
-    print("0. Go back to the main menu")
-    print("\n")
-
-    settingChoice = int(input("Please select which value you want to change: "))
-
-    while settingChoice != GOBACK:
-        if settingChoice == BASEVALUE:
-            try:
-                baseGlobal = int(input("Enter new rounding value: "))
-            except:
-                baseGlobal = 3
-                print("Invalid entry. If a decimal was tried, please note that they are currently not supported for this value.")
-                return(baseGlobal, counterMaxGlobal)
-        elif settingChoice == COUNTERMAXVALUE:
-            try:
-                counterMaxGlobal = str(input("Enter new time value: "))
-                counterMaxGlobal = int(float(counterMaxGlobal) * 10)
-                print("The time it takes for a location to be reorded is " + str(counterMaxGlobal/10) + " seconds.")
-                print(baseGlobal)
-                print(counterMaxGlobal)
-                print("\n")
-                return(baseGlobal, counterMaxGlobal)
-            except:
-                counterMaxGlobal = 35
-                print("Invalid entry.")
-        else:
-            continue
-            
-    return baseGlobal, counterMaxGlobal
-
-def tutorial():
     
-    print("\n")
-    print("\n")
-    print("\n")
-    print("Tutorial:")
-    print("\n")
-    print("This program is made to take Zebra JSON outputs and form them in such a way that makes them useful for Excel and Tableau use.")
-    print("Each of the main options will ask for an event code. You can find these in the URL of every events page.")
-    print("For example, if you wanted data from 2020 PNW West Valley District Event, the event code would be '2020waspo'.")
-    print("Currently, there are three different options for what data to collect:")
-    print("\n")
-    print("1. Full match Zebra Data: Collect all zebra data from an event and put it into one file.")
-    print("These will get fairly large for an excel file (20mb) and may cause loading issues with tableau on weaker PC's.")
-    print("\n")
-    print("2. Zebra Auto Data: This will collect the first 16 seconds of every match and save them into one file.")
-    print("This is great for finding paths of teams that you will be competing with/against at an event.")
-    print("\n")
-    print("3. Zebra Shooter Location: This will comb through the data to find where teams are consistently in one spot, and save those locations.")
-    print("The default time is 3.5s in one spot, with each location value rounded to the nearest 3ft mark. These can be edited in Settings.")
-    print("\n")
-    print("Be aware that all of these are saved as CSV files, and need to be resaved as an XLSX file to be used in Tableau.")
-    print("\n")
+    root.mainloop()
+
+
+def guiDelegator(eventName, commandType):
+    #guiDelegator currenty does the errorhandling for the user input then delegates the tasks to the respective functions, and then sends a success or failure message based on what happens
+    #Future goals include adding a progress bar, as currently there is no way for the user to tell if the program is working or completely frozen, which is not ideal.
+    eventExceptionTest = "match/" + eventName + "_qm1"
+
+
+    try:
+        if getTBA(eventExceptionTest)['alliances']['red']['score'] == -1 or getTBA(eventExceptionTest)['alliances']['red']['score'] == None:
+            g=g
     
+    except:
+        #Theres bound to be a way i can include this at the beginning of the function and have it work for all instances. Need to mess with that
+        pop = Toplevel(root)
+        photo = PhotoImage(file = "g19.png")
+        pop.iconphoto(False, photo)
+        errorText = ttk.Label(pop, text="No match data has been found for this event. Please double check that the event code is correct.").grid(column=0, row = 1, padx=12, pady=6)
+        saveButton = ttk.Button(pop, text='Okay', default="active", command =lambda: pop.destroy()).grid(column=0, row=2, padx=2, pady=2)
+        #pop.grid(column=0, row=1, padx=1, pady=1)
+
+    else:
+        matchNum = matchList(eventName)
+
+        #match is just Python's switch function. 
+        #We take the input from the gui menu and whatever # value its associated gets sent in for that command to run. Nifty and it emulates my original pipeline really well
+        match commandType: 
+            case 0:
+                 progResp = JSONToCSV(eventName)
+            case 1:
+                 progResp = JSONToCSVAutos(eventName)
+            case 2:
+                 progResp = findShooterSpots(eventName)
+
+        pop = Toplevel(root)
+        photo = PhotoImage(file = "g19.png")
+        pop.iconphoto(False, photo)
+        successPopup = ttk.Label(pop, text= str(matchNum) + " matches have been saved").grid(column=0, row = 1, padx=12, pady=6)
+        saveButton = ttk.Button(pop, text='Okay', default="active", command =lambda: pop.destroy()).grid(column=0, row=2, padx=2, pady=2)
+
         
-    
+
+
+
+
+def apiErrorGui():
+    apiUserValue = StringVar()
+
+    #Im fairly sure this is still not the "most correct" way to do this, so i should come back and clean up the popup
+    mainframe = ttk.Frame(root, padding='3 3 12 12', borderwidth=5)
+    apiEntryLabel = ttk.Label(mainframe, text="No TBA API Key found, please enter one below:").grid(column=0, row=0)
+    saveButton = ttk.Button(mainframe, text='save', default="active", command =lambda: [settingMaker.tbaAppend(apiUserValue.get()), root.destroy()]).grid(column=2, row=2, padx=2, pady=2)
+    apiUserEntry = ttk.Entry(mainframe, width=64, textvariable=str(apiUserValue)).grid(column=0, row=1)
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+    root.mainloop()
+
+
+
+
+root = Tk()
+root.title("HeatStripe")
+guiEventName = StringVar()
+
+photo = PhotoImage(file = "g19.png")
+root.iconphoto(False, photo)
 
 
 try:
     if 'Error' in getTBA('status') or header == {'X-TBA-Auth-Key':''} or header == {'X-TBA-Auth-Key':'EDIT ME!'}:
         g = g
+        
 except:
-    print("Error:")
-    print("No TBA API key was found or the key was incorrectly entered. Double check your TBA API key, or create one at http://www.thebluealliance.com/account.")
+    
+    apiErrorGui()
+    
     s.close()
 else:
-    mainMenu()
+    guiMenu()
     s.close()
