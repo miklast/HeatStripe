@@ -18,13 +18,12 @@ HeatStripe allows you to save the JSON data ZEBRA MotionWorks outputs given by [
 ![](https://i.imgur.com/vCC05gy.png)
 
 ## Install
-1. Download the latest versions of Python and pip. 
 
-2. Download and extract HeatStripe.
+1. download the latest version of HeatStripe from the [releases page](https://github.com/miklast/HeatStripe/releases)
 
-3. Generate a TBA API key. This is used to access data from The Blue Alliance. You can generate a TBA API key [here.](https://www.thebluealliance.com/account)
+2. Generate a TBA API key. This is used to access data from The Blue Alliance. You can generate a TBA API key [here.](https://www.thebluealliance.com/account)
 
-3. Run HeatStripe.py. The first time setup will have you enter your API key. You will need to run it a 2nd time to have the changes save fully.
+3. Run HeatStripe.exe. The first time setup will have you enter your API key. You will need to run it a 2nd time to have the changes save fully.
 
 4. Enter an event code with ZEBRA Motionworks data and let HeatStripe condense the data. It may seem non-responsive during that time, but that is normal operation.  
 
