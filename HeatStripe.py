@@ -7,7 +7,7 @@
 
 
 
-import pip._vendor.requests
+import requests
 import csv
 from tkinter import *
 from tkinter import ttk
@@ -35,7 +35,7 @@ baseURL = 'https://www.thebluealliance.com/api/v3/'
 header = {'X-TBA-Auth-Key':config.get('main','TBA-KEY')}
 
 #This prevents us from repeatedly opening and closing a socket + speeds it up.
-s = pip._vendor.requests.Session()
+s = requests.Session()
 
 baseGlobal = int(config.get('main', 'rounding'))
 counterMaxGlobal = int(config.get('main', 'stop-time'))
