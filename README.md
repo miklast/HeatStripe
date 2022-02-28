@@ -18,7 +18,7 @@ HeatStripe allows you to save the JSON data ZEBRA MotionWorks outputs given by [
 ![](https://i.imgur.com/vCC05gy.png)
 
 ## Install
-1. Download the latest versions of Python and pip. This program only works on Python 3.10 and above.
+1. Download the latest versions of Python and pip. 
 
 2. Download and extract HeatStripe.
 
