@@ -411,15 +411,17 @@ def guiDelegator(eventName, commandType):
     else:
         matchNum = matchList(eventName)
 
-        #match is just Python's switch function. 
-        #We take the input from the gui menu and whatever # value its associated gets sent in for that command to run. Nifty and it emulates my original pipeline really well
-        match commandType: 
-            case 0:
-                 progResp = JSONToCSV(eventName)
-            case 1:
-                 progResp = JSONToCSVAutos(eventName)
-            case 2:
-                 progResp = findShooterSpots(eventName)
+        #This originally used the `match` function but in testing i had a lot of complaints about the feature being so new and adversity to upgrading to Python 3.10
+        #swapped this to if statements instead for this reason, smh
+
+        if commandType == 0:
+            progResp = JSONToCSV(eventName)
+        elif commandType == 1:
+            progResp = JSONToCSVAutos(eventName)
+        elif commandType == 2:
+            progResp = findShooterSpots(eventName)
+
+
 
         pop = Toplevel(root)
         photo = PhotoImage(file = "g19.png")
