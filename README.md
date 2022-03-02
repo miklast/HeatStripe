@@ -19,11 +19,25 @@ HeatStripe allows you to save the JSON data ZEBRA MotionWorks outputs given by [
 
 ## Install
 
+### Windows
+
 1. download the latest version of HeatStripe from the [releases page](https://github.com/miklast/HeatStripe/releases)
 
 2. Generate a TBA API key. This is used to access data from The Blue Alliance. You can generate a TBA API key [here.](https://www.thebluealliance.com/account)
 
 3. Run HeatStripe.exe. The first time setup will have you enter your API key. You will need to run it a 2nd time to have the changes save fully.
+
+4. Enter an event code with ZEBRA Motionworks data and let HeatStripe condense the data. It may seem non-responsive during that time, but that is normal operation.  
+
+5. If the data is for use within Tableau, you must resave the data from a CSV file to an XLSX file to be able to connect it to Tableau. Tableau does not like large CSV files and will refuse to run properly with them.
+
+### MacOS/Linux
+
+1. clone the repo or download the zip file. You will need Python 3 and the ``requests`` library. You can install it by running the command ``python -m pip install requests`` 
+
+2. Generate a TBA API key. This is used to access data from The Blue Alliance. You can generate a TBA API key [here.](https://www.thebluealliance.com/account)
+
+3. Run HeatStripe.py. The first time setup will have you enter your API key. You will need to run it a 2nd time to have the changes save fully.
 
 4. Enter an event code with ZEBRA Motionworks data and let HeatStripe condense the data. It may seem non-responsive during that time, but that is normal operation.  
 
@@ -48,6 +62,12 @@ Do note that the year must be included for the event code to properly work.
 ![Example of adding an image to a sheet](https://i.imgur.com/f8T7gXN.gif)
 
 You can find high quality field photos for the 2022 season in this [Chief Delphi thread](https://www.chiefdelphi.com/t/2022-top-down-field-renders/399031?u=miklast). Use the photo with the prefix "cropped" for the best results.
+
+**Q. What is the "stop data" and is it possible to change its settings?**
+
+The stop data collection is meant to collect the positions of where a robot stops, namely for shooting. It does this by looking at a range of points and seeing if a robot has moved out of that range after a certain amount of time, and plots that point if it has met those condintions. This solution isint foolproof (namely, a disabled bot can be counted as "stopped") but with the defaults, you should be able to quickly tell when a spot is abnormal for a team.
+
+Currently, this setting defaults to a 2 foot radius for longer than 3.5 seconds. While you cannot change these in app, you can modify the ``settings.ini`` file to ones that better suit your needs.
 
 ## Thanks
 
